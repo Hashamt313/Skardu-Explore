@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Forward /api/<route>/<id> to api.php?route=<route>&id=<id>
+  RewriteRule ^api/([^/]+)/?([^/]+)?$ api.php?route=$1&id=$2 [QSA,L]
+
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

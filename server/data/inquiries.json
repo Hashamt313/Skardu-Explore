@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Ahmed Khan", "phone": "+92 300 1234567", "msg": "I need to book Toyota Prado for 5 days for K2 Base Camp trip.", "tour": "Fleet — Prado 2013-2020", "date": "2026-07-05", "time": "09:14 AM", "status": "unread" },
+  { "id": 2, "name": "Sara Malik", "phone": "+92 321 9876543", "msg": "Interested in 8-day Hunza tour package for family of 4 persons.", "tour": "Hunza & Deosai Package", "date": "2026-07-04", "time": "03:45 PM", "status": "unread" },
+  { "id": 3, "name": "Bilal Hussain", "phone": "+92 333 5551234", "msg": "What is the group discount for Grand Cabin for 10+ days?", "tour": "Fleet — Grand Cabin", "date": "2026-07-04", "time": "11:22 AM", "status": "unread" },
+  { "id": 4, "name": "Nadia Iqbal", "phone": "+92 311 7770001", "msg": "Would like to plan a custom corporate trip for 20 people to Deosai.", "tour": "Custom Tour", "date": "2026-07-03", "time": "05:00 PM", "status": "read" },
+  { "id": 5, "name": "Usman Tariq", "phone": "+92 345 2223344", "msg": "Nangma Valley trek booking for 2 persons — available this month?", "tour": "Nangma Valley Trek", "date": "2026-07-02", "time": "08:30 AM", "status": "read" }
+]
