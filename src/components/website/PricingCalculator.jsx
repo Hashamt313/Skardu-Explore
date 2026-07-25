@@ -6,19 +6,22 @@ const pkr = (n) => 'PKR ' + Number(n).toLocaleString('en-PK');
 
 export default function PricingCalculator() {
   const [selectedIdx, setSelectedIdx] = useState('');
-  const [days,        setDays]        = useState(1);
+  const [days,        setDays]        = useState('');
   const [fuelByUs,    setFuelByUs]    = useState(true);
   const { fleet, settings } = useAdmin();
   const whatsapp = settings?.whatsapp || '923182277086';
 
-  const car    = selectedIdx !== '' ? fleet[selectedIdx] : null;
-  const base   = car ? car.price * days : 0;
-  const fuel   = (car && fuelByUs) ? car.fuelCost * days : 0;
+  const car       = selectedIdx !== '' ? fleet[selectedIdx] : null;
+  const validDays = days !== '' && Number(days) >= 1 && Number(days) <= 30;
+  const dayCount  = validDays ? Number(days) : 0;
+  const base      = car ? car.price * dayCount : 0;
+  const fuel      = (car && fuelByUs) ? car.fuelCost * dayCount : 0;
   const total  = base + fuel;
 
   const handleBook = () => {
     if (!car) { alert('Please select a car first!'); return; }
-    const msg = `Hi! I'd like to book *${car.name}* for *${days} day(s)*. Estimated total: *${pkr(total)}*. Please confirm availability.`;
+    if (!validDays) { alert('Please enter rental days between 1 and 30.'); return; }
+    const msg = `Hi! I'd like to book *${car.name}* for *${dayCount} day(s)*. Estimated total: *${pkr(total)}*. Please confirm availability.`;
     window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
@@ -55,7 +58,9 @@ export default function PricingCalculator() {
                   <label htmlFor="rentalDays">Rental Days</label>
                   <input
                     type="number" id="rentalDays" min={1} max={30}
-                    value={days} onChange={e => setDays(Math.max(1, parseInt(e.target.value)||1))}
+                    value={days}
+                    placeholder="Enter rental days"
+                    onChange={e => setDays(e.target.value)}
                   />
                 </div>
 
@@ -92,7 +97,7 @@ export default function PricingCalculator() {
                   <h3>Price Breakdown</h3>
                   <div className="breakdown-list">
                     <div className="breakdown-item">
-                      <span className="label">Base Rate ({days} days)</span>
+                      <span className="label">Base Rate ({dayCount} days)</span>
                       <span className="value">{pkr(base)}</span>
                     </div>
                     <div className="breakdown-item">
