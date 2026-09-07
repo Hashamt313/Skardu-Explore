@@ -40,3 +40,5 @@ export const DEFAULT_SETTINGS = {
   instagram: 'https://www.instagram.com/incredibleskardu',
   currency: 'PKR',
 };
+
+export const DEFAULT_BLOGS = [];

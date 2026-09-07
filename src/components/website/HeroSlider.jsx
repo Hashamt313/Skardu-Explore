@@ -74,13 +74,15 @@ export default function HeroSlider() {
       </div>
 
       <div className="slider-controls">
-        <button onClick={() => goTo(current - 1)}><ChevronLeft size={22} /></button>
-        <button onClick={() => goTo(current + 1)}><ChevronRight size={22} /></button>
+        <button type="button" aria-label="Show previous slide" onClick={() => goTo(current - 1)}><ChevronLeft size={22} /></button>
+        <button type="button" aria-label="Show next slide" onClick={() => goTo(current + 1)}><ChevronRight size={22} /></button>
       </div>
 
       <div className="slider-dots">
         {slides.map((_, i) => (
-          <div
+          <button
+            type="button"
+            aria-label={`Show slide ${i + 1}`}
             key={i}
             className={`dot ${i === current ? 'active' : ''}`}
             onClick={() => goTo(i)}

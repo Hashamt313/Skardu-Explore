@@ -10,7 +10,7 @@ function BlogModal({ blog, onClose, whatsapp }) {
         <button className="blog-modal-close" onClick={onClose}><X size={22}/></button>
         {blog.img && (
           <div className="blog-modal-img-wrap">
-            <img src={blog.img} alt={blog.title}/>
+            <img src={blog.img} alt={blog.title} loading="lazy" decoding="async" width="800" height="450"/>
           </div>
         )}
         <div className="blog-modal-body">
@@ -44,6 +44,10 @@ function BlogCard({ blog, onRead }) {
         <img
           src={blog.img || 'https://mediumvioletred-hedgehog-139961.hostingersite.com/img/skardu.webp'}
           alt={blog.title}
+          loading="lazy"
+          decoding="async"
+          width="400"
+          height="200"
         />
         <span className="blog-tag blog-tag-overlay">{blog.category}</span>
       </div>

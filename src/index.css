@@ -774,9 +774,15 @@ img {
     flex-direction: column;
     justify-content: flex-end;
     border: none;
-    background-size: cover;
-    background-position: center;
     transition: var(--transition);
+}
+
+.tour-card-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .card.tour-card::before {
@@ -887,7 +893,7 @@ img {
     transform: scale(1.1);
 }
 
-.dest-overlay h4 {
+.dest-overlay h3 {
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 5px;

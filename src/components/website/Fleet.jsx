@@ -14,7 +14,7 @@ function VehicleCard({ v, whatsapp }) {
   return (
     <div className="card vehicle-card">
       <div className="card-img">
-        <img loading="lazy" src={v.img || fallbackImg} alt={v.name} />
+        <img loading="lazy" decoding="async" width="400" height="220" src={v.img || fallbackImg} alt={v.name} />
         <div className="card-overlay">
           <a href={waUrl} className="btn btn-primary" target="_blank" rel="noreferrer">Book Now</a>
         </div>

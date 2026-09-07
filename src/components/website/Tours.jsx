@@ -17,7 +17,16 @@ function TourCard({ pkg, whatsapp }) {
   const waUrl = `https://wa.me/${whatsapp}?text=${encodeURIComponent(waMessage)}`;
 
   return (
-    <div className="card tour-card" style={{ backgroundImage: `url('${pkg.img || 'https://mediumvioletred-hedgehog-139961.hostingersite.com/img/skardu.webp'}')` }}>
+    <div className="card tour-card">
+      <img
+        className="tour-card-image"
+        src={pkg.img || 'https://mediumvioletred-hedgehog-139961.hostingersite.com/img/skardu.webp'}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        width="640"
+        height="400"
+      />
       <div className="card-content">
         <h3>{pkg.title}</h3>
         <p className="tour-days">{pkg.duration || pkg.days || 'Flexible Duration'}</p>
@@ -60,7 +69,7 @@ export default function Tours() {
             return (
               <div key={i} className="service-icon-box">
                 <div className="icon-circle"><Icon size={22} /></div>
-                <h4>{s.title}</h4>
+                <h3>{s.title}</h3>
                 <p>{s.desc}</p>
               </div>
             );

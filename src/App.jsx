@@ -67,9 +67,16 @@ function Website() {
           <div className="grid grid-4">
             {activeDestinations.map((d, i) => (
               <div key={d.id || i} className="dest-card">
-                <img src={d.img || 'https://mediumvioletred-hedgehog-139961.hostingersite.com/img/deosai-national-park.webp'} alt={d.name} />
+                <img
+                  src={d.img || 'https://mediumvioletred-hedgehog-139961.hostingersite.com/img/deosai-national-park.webp'}
+                  alt={d.name}
+                  loading="lazy"
+                  decoding="async"
+                  width="640"
+                  height="200"
+                />
                 <div className="dest-overlay">
-                  <h4>{d.name}</h4>
+                  <h3>{d.name}</h3>
                   <p>{d.desc}</p>
                 </div>
               </div>

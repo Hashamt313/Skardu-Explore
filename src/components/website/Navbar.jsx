@@ -77,7 +77,13 @@ export default function Navbar() {
           <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" className="btn btn-primary">
             <MessageCircle size={16} /><span>WhatsApp</span>
           </a>
-          <button className="menu-toggle" onClick={() => setMobileOpen(o => !o)}>
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen(o => !o)}
+          >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>

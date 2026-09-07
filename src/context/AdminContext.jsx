@@ -1,4 +1,12 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import {
+  DEFAULT_BLOGS,
+  DEFAULT_DESTINATIONS,
+  DEFAULT_FLEET,
+  DEFAULT_INQUIRIES,
+  DEFAULT_SETTINGS,
+  DEFAULT_TOURS,
+} from '../data/defaults';
 
 const AdminContext = createContext(null);
 const API = '/api';
@@ -42,39 +50,40 @@ async function del(path) {
 }
 
 export function AdminProvider({ children }) {
-  const [fleet,        setFleet]        = useState([]);
-  const [tours,        setTours]        = useState([]);
-  const [inquiries,    setInquiries]    = useState([]);
-  const [destinations, setDestinations] = useState([]);
-  const [settings,     setSettings]     = useState({});
-  const [blogs,        setBlogs]        = useState([]);
-  const [loading,      setLoading]      = useState(true);
+  const [fleet,        setFleet]        = useState(DEFAULT_FLEET);
+  const [tours,        setTours]        = useState(DEFAULT_TOURS);
+  const [inquiries,    setInquiries]    = useState(DEFAULT_INQUIRIES);
+  const [destinations, setDestinations] = useState(DEFAULT_DESTINATIONS);
+  const [settings,     setSettings]     = useState(DEFAULT_SETTINGS);
+  const [blogs,        setBlogs]        = useState(DEFAULT_BLOGS);
+  const loading = false;
   const [error,        setError]        = useState(null);
 
-  // Load all data on mount
+  // Keep the public page usable while the database refreshes in the background.
   useEffect(() => {
     Promise.all([
       get('/fleet'),
       get('/tours'),
-      get('/inquiries'),
-      get('/destinations'),
       get('/settings'),
       get('/blogs'),
     ])
-      .then(([f, t, i, d, s, b]) => {
+      .then(([f, t, s, b]) => {
         setFleet(f);
         setTours(t);
-        setInquiries(i);
-        setDestinations(d);
         setSettings(s);
         setBlogs(b);
-        setLoading(false);
       })
       .catch(err => {
         console.error('Backend connection failed:', err);
-        setError('Backend server connection failed. Please run npm run dev:server.');
-        setLoading(false);
+        setError('Live data is unavailable. Showing the latest saved content.');
       });
+
+    Promise.all([get('/inquiries'), get('/destinations')])
+      .then(([i, d]) => {
+        setInquiries(i);
+        setDestinations(d);
+      })
+      .catch(err => console.error('Background admin data refresh failed:', err));
   }, []);
 
   // ── Fleet CRUD ─────────────────────────────────────────
