@@ -1,6 +1,6 @@
 :root {
-    --primary: #ea580c;
-    --primary-hover: #c2410c;
+    --primary: #c2410c;
+    --primary-hover: #9a3412;
     --secondary: #0f172a;
     --text-main: #1e293b;
     --text-muted: #64748b;
@@ -940,7 +940,7 @@ img {
 }
 
 .bg-whatsapp {
-    background-color: #25d366 !important;
+    background-color: #128c4a !important;
     color: white !important;
 }
 
@@ -950,21 +950,21 @@ img {
 }
 
 .btn-whatsapp {
-    background-color: #25d366;
+    background-color: #128c4a;
     color: white;
 }
 
 .btn-whatsapp:hover {
-    background-color: #20ba5a;
+    background-color: #0f713c;
 }
 
 .btn-phone {
-    background-color: #3b82f6;
+    background-color: #1d4ed8;
     color: white;
 }
 
 .btn-phone:hover {
-    background-color: #2563eb;
+    background-color: #1e40af;
 }
 
 .btn-facebook {

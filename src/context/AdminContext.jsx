@@ -59,31 +59,54 @@ export function AdminProvider({ children }) {
   const loading = false;
   const [error,        setError]        = useState(null);
 
-  // Keep the public page usable while the database refreshes in the background.
   useEffect(() => {
-    Promise.all([
+    const refreshPublicData = () => Promise.all([
       get('/fleet'),
       get('/tours'),
-      get('/settings'),
       get('/blogs'),
-    ])
-      .then(([f, t, s, b]) => {
-        setFleet(f);
-        setTours(t);
-        setSettings(s);
-        setBlogs(b);
-      })
-      .catch(err => {
-        console.error('Backend connection failed:', err);
+    ]).then(([f, t, b]) => {
+      setFleet(f);
+      setTours(t);
+      setBlogs(b);
+    });
+
+    const refreshAdminData = () => Promise.all([
+      get('/inquiries'),
+      get('/destinations'),
+      refreshPublicData(),
+    ]).then(([i, d]) => {
+      setInquiries(i);
+      setDestinations(d);
+    });
+
+    get('/settings')
+      .then(setSettings)
+      .catch(err => console.error('Settings refresh failed:', err));
+
+    if (window.location.pathname === '/admin') {
+      refreshAdminData().catch(err => {
+        console.error('Admin data refresh failed:', err);
         setError('Live data is unavailable. Showing the latest saved content.');
       });
+      return undefined;
+    }
 
-    Promise.all([get('/inquiries'), get('/destinations')])
-      .then(([i, d]) => {
-        setInquiries(i);
-        setDestinations(d);
-      })
-      .catch(err => console.error('Background admin data refresh failed:', err));
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        observer.disconnect();
+        refreshPublicData().catch(err => {
+          console.error('Public data refresh failed:', err);
+          setError('Live data is unavailable. Showing the latest saved content.');
+        });
+      }
+    }, { rootMargin: '200px' });
+
+    ['fleet', 'tours', 'blogs']
+      .map(id => document.getElementById(id))
+      .filter(Boolean)
+      .forEach(section => observer.observe(section));
+
+    return () => observer.disconnect();
   }, []);
 
   // ── Fleet CRUD ─────────────────────────────────────────

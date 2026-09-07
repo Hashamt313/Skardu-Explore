@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle, Menu, X } from 'lucide-react';
-import SkarduLogo from '../../assets/Skardu Logo.png';
+import SkarduLogo from '../../assets/Skardu Logo.webp';
 import { useAdmin } from '../../context/AdminContext';
 
 export default function Navbar() {
@@ -53,7 +53,9 @@ export default function Navbar() {
             <img
               src={SkarduLogo}
               alt="Skardu Explore Logo"
-              style={{ height: '54px', width: 'auto', objectFit: 'contain' }}
+              width="79"
+              height="54"
+              style={{ height: '54px', width: '79px', objectFit: 'contain' }}
             />
             <span style={{ fontWeight: 800, fontSize: '1.55rem', letterSpacing: '0.5px', color: '#fff' }}>
               {logoFirst} <span style={{ color: '#fff', fontWeight: 800 }}>{logoRest}</span>

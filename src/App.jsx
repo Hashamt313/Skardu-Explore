@@ -12,10 +12,10 @@ import { AdminProvider, useAdmin } from './context/AdminContext';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 
-import dest1 from './assets/gb image/image.png';
-import dest2 from './assets/gb image/image copy.png';
-import dest3 from './assets/gb image/image copy 2.png';
-import dest4 from './assets/gb image/image copy 3.png';
+import dest1 from './assets/gb image/image.webp';
+import dest2 from './assets/gb image/image copy.webp';
+import dest3 from './assets/gb image/image copy 2.webp';
+import dest4 from './assets/gb image/image copy 3.webp';
 
 const destinations = [
   { name: 'Deosai National Park', desc: 'Land of Giants', img: dest1 },
