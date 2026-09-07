@@ -79,34 +79,32 @@ export function AdminProvider({ children }) {
       setDestinations(d);
     });
 
-    get('/settings')
-      .then(setSettings)
-      .catch(err => console.error('Settings refresh failed:', err));
-
     if (window.location.pathname === '/admin') {
-      refreshAdminData().catch(err => {
+      Promise.all([get('/settings'), refreshAdminData()])
+        .then(([s]) => setSettings(s))
+        .catch(err => {
         console.error('Admin data refresh failed:', err);
         setError('Live data is unavailable. Showing the latest saved content.');
-      });
+        });
       return undefined;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        observer.disconnect();
-        refreshPublicData().catch(err => {
-          console.error('Public data refresh failed:', err);
-          setError('Live data is unavailable. Showing the latest saved content.');
-        });
+    const refresh = () => refreshPublicData().catch(err => {
+      console.error('Public data refresh failed:', err);
+      setError('Live data is unavailable. Showing the latest saved content.');
+    });
+    const usesIdleCallback = 'requestIdleCallback' in window;
+    const idleId = usesIdleCallback
+      ? window.requestIdleCallback(refresh, { timeout: 5000 })
+      : window.setTimeout(refresh, 4000);
+
+    return () => {
+      if (usesIdleCallback) {
+        window.cancelIdleCallback(idleId);
+      } else {
+        window.clearTimeout(idleId);
       }
-    }, { rootMargin: '200px' });
-
-    ['fleet', 'tours', 'blogs']
-      .map(id => document.getElementById(id))
-      .filter(Boolean)
-      .forEach(section => observer.observe(section));
-
-    return () => observer.disconnect();
+    };
   }, []);
 
   // ── Fleet CRUD ─────────────────────────────────────────

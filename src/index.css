@@ -1142,8 +1142,8 @@ footer ul li a:hover {
 }
 
 .fade-in { animation: fadeInUp 0.8s ease-out forwards; }
-.fade-in-delay { animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
-.fade-in-delay-2 { animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0; }
+.fade-in-delay { animation: fadeInUp 0.8s ease-out forwards; }
+.fade-in-delay-2 { animation: fadeInUp 0.8s ease-out forwards; }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {

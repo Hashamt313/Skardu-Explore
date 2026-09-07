@@ -40,7 +40,7 @@ function DeferredSection({ id, Component, minHeight }) {
         observer.disconnect();
         setShouldLoad(true);
       }
-    }, { rootMargin: '300px' });
+    }, { rootMargin: '0px' });
 
     observer.observe(section);
     return () => observer.disconnect();
