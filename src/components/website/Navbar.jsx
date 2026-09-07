@@ -21,14 +21,27 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 50);
-      const sections = ['home', 'pricing', 'fleet', 'tours', 'blogs', 'contact'];
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 100) setActive(id);
-      }
     };
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const sections = ['home', 'pricing', 'fleet', 'tours', 'blogs', 'contact'];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const navLinks = [
