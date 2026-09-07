@@ -66,7 +66,7 @@ function BlogCard({ blog, onRead }) {
   );
 }
 
-export default function Blogs() {
+export default function Blogs({ deferred = false }) {
   const { blogs, settings } = useAdmin();
   const whatsapp = settings?.whatsapp || '923182277086';
   const [activeCategory, setActiveCategory] = useState('All');
@@ -80,7 +80,7 @@ export default function Blogs() {
 
   return (
     <>
-      <section id="blogs" className="section bg-light">
+      <section id={deferred ? undefined : 'blogs'} className="section bg-light">
         <div className="container">
           <div className="section-header text-center">
             <div className="blog-section-icon">

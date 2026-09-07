@@ -50,13 +50,13 @@ function TourCard({ pkg, whatsapp }) {
   );
 }
 
-export default function Tours() {
+export default function Tours({ deferred = false }) {
   const { tours, settings } = useAdmin();
   const whatsapp = settings?.whatsapp || '923182277086';
   const activeTours = tours.filter(t => t.status === 'active');
 
   return (
-    <section id="tours" className="section bg-light">
+    <section id={deferred ? undefined : 'tours'} className="section bg-light">
       <div className="container">
         <div className="section-header text-center">
           <h2>Tour &amp; Travel Services in Skardu &amp; Hunza</h2>

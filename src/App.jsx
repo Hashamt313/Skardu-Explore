@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
 import Navbar from './components/website/Navbar';
 import HeroSlider from './components/website/HeroSlider';
-import PricingCalculator from './components/website/PricingCalculator';
-import Fleet from './components/website/Fleet';
-import Tours from './components/website/Tours';
-import Blogs from './components/website/Blogs';
+const PricingCalculator = lazy(() => import('./components/website/PricingCalculator'));
+const Fleet = lazy(() => import('./components/website/Fleet'));
+const Tours = lazy(() => import('./components/website/Tours'));
+const Blogs = lazy(() => import('./components/website/Blogs'));
 
 import { AdminProvider, useAdmin } from './context/AdminContext';
-import AdminLogin from './components/admin/AdminLogin';
-import AdminDashboard from './components/admin/AdminDashboard';
+const AdminLogin = lazy(() => import('./components/admin/AdminLogin'));
+const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
 
 import dest1 from './assets/gb image/image.webp';
 import dest2 from './assets/gb image/image copy.webp';
@@ -23,6 +23,39 @@ const destinations = [
   { name: 'Manthoka Waterfall', desc: 'Natural beauty', img: dest3 },
   { name: 'Shangrila Resort', desc: 'Lower Kachura Lake', img: dest4 },
 ];
+
+function DeferredSection({ id, Component, minHeight }) {
+  const sectionRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !('IntersectionObserver' in window)) {
+      setShouldLoad(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        observer.disconnect();
+        setShouldLoad(true);
+      }
+    }, { rootMargin: '300px' });
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={sectionRef} id={id} className="deferred-section" style={{ minHeight }}>
+      {shouldLoad && (
+        <Suspense fallback={null}>
+          <Component deferred />
+        </Suspense>
+      )}
+    </div>
+  );
+}
 
 function Website() {
   const { settings } = useAdmin();
@@ -46,16 +79,16 @@ function Website() {
       <HeroSlider />
 
       {/* Pricing Calculator Section */}
-      <PricingCalculator />
+      <DeferredSection id="pricing" Component={PricingCalculator} minHeight="560px" />
 
       {/* Fleet Section */}
-      <Fleet />
+      <DeferredSection id="fleet" Component={Fleet} minHeight="760px" />
 
       {/* Tour Services Section */}
-      <Tours />
+      <DeferredSection id="tours" Component={Tours} minHeight="980px" />
 
       {/* Blogs Section */}
-      <Blogs />
+      <DeferredSection id="blogs" Component={Blogs} minHeight="900px" />
 
 
       {/* Destinations Section */}
@@ -230,10 +263,14 @@ function AdminContainer() {
     setIsAuthenticated(false);
   };
 
-  return isAuthenticated ? (
-    <AdminDashboard onLogout={handleLogout} />
-  ) : (
-    <AdminLogin onLogin={handleLogin} />
+  return (
+    <Suspense fallback={<div className="admin-loading"><div className="admin-spinner" /><p>Loading admin...</p></div>}>
+      {isAuthenticated ? (
+        <AdminDashboard onLogout={handleLogout} />
+      ) : (
+        <AdminLogin onLogin={handleLogin} />
+      )}
+    </Suspense>
   );
 }
 

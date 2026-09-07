@@ -58,6 +58,10 @@ img {
     padding: 80px 0;
 }
 
+.deferred-section {
+    contain: layout;
+}
+
 .section-header {
     margin-bottom: 50px;
 }

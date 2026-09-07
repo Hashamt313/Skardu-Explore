@@ -4,7 +4,7 @@ import { useAdmin } from '../../context/AdminContext';
 
 const pkr = (n) => 'PKR ' + Number(n).toLocaleString('en-PK');
 
-export default function PricingCalculator() {
+export default function PricingCalculator({ deferred = false }) {
   const [selectedIdx, setSelectedIdx] = useState('');
   const [days,        setDays]        = useState('');
   const [fuelByUs,    setFuelByUs]    = useState(true);
@@ -27,7 +27,7 @@ export default function PricingCalculator() {
 
 
   return (
-    <section id="pricing" className="section bg-light">
+    <section id={deferred ? undefined : 'pricing'} className="section bg-light">
       <div className="container">
         <div className="section-header text-center">
           <h2>Pricing Calculator</h2>

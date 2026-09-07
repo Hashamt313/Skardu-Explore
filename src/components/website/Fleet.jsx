@@ -36,12 +36,12 @@ function VehicleCard({ v, whatsapp }) {
   );
 }
 
-export default function Fleet() {
+export default function Fleet({ deferred = false }) {
   const { fleet, settings } = useAdmin();
   const whatsapp = settings?.whatsapp || '923182277086';
 
   return (
-    <section id="fleet" className="section">
+    <section id={deferred ? undefined : 'fleet'} className="section">
       <div className="container">
         <div className="section-header text-center">
           <h2>Our Premium Fleet</h2>
